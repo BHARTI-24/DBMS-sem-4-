@@ -86,7 +86,106 @@ insert into participated values
 
 select * from participated;
 
-
+-- a
 update participated 
 set  damage_amount =25000
 where report_number=12;
+
+	-- b
+delete
+from accident
+where report_number=16;
+
+  insert into accident
+  values(16,'2008-05-23','hanumanth nagar');
+  select * from accident;
+ -- (iv) 
+select distinct count(reg_no)
+from participated p,accident a
+where p.report_number=a.report_number and a.date like '2008%';
+
+	-- (v)
+    select count(report_number)
+    from participated p,car c
+    where p.reg_no=c.reg_no and c.model="Lancer";
+
+-- ADDITIONAL QUERIES:
+ -- 1)	LIST THE ENTIRE PARTICIPATED RELATION IN THE DESCENDING ORDER OF DAMAGE AMOUNT
+ 
+select *
+from participated
+order by damage_amount desc;
+ 
+-- 2)	FIND THE AVERAGE DAMAGE AMOUNT
+select avg(damage_amount)
+from participated;
+
+-- 3)	DELETE THE TUPLE WHOSE DAMAGE AMOUNT IS BELOW THE AVERAGE DAMAGE AMOUNT
+delete participated.*
+from participated
+where  damage_amount < (select avg(damage_amount)
+						from participated);
+                        
+-- 4)	LIST THE NAME OF DRIVERS WHOSE DAMAGE IS GREATER THAN THE AVERAGE DAMAGE AMOUNT.
+select name 
+from person x,participated y
+where y.driver_id=x.driver_id and   damage_amount  > (select avg(damage_amount)
+													  from participated);
+                                                      
+-- 5)	FIND MAXIMUM DAMAGE AMOUNT.
+select max(damage_amount)
+from participated;
+
+
+
+-- Extra 
+  -- 1
+insert into car
+values('KA05MC001','Audi',2018);
+select * from car;
+
+
+insert into accident
+values(16,'2019-03-01','Bull temple road');
+select * from accident;
+
+insert into owns
+values('A03','KA05MC001');
+
+insert into participated
+values('A03','KA05MC001',16,75000);
+
+
+  -- 2
+  select  o.driver_id,c.*
+  from owns o,car c
+  where o.Reg_no=c.Reg_no and c.model='Lancer';
+  
+   -- 3
+   select Reg_no 
+   from participated p, accident a
+   where p.report_number=a.report_number and a.date  between  '2003-01-01' and  '2005-01-01';
+                                                            
+   
+   
+   -- 4
+   select count(*)
+   from accident 
+   where location like 'Mysore%';
+   
+   -- 5
+   select x.*,y.damage_amount
+   from person x,participated y
+   where x.driver_id=y.driver_id and y.damage_amount > (select avg(damage_amount)
+														from participated);
+                                                        
+	-- 6
+    select count(*)
+    from accident 
+    where date like '2008%';
+  
+  -- 7
+  delete c.model
+  from car c, person p,owns o
+  where o.Reg_no=c.Reg_no and o.driver_id=p.driver_id and p.name='jhon' and  c.model='Audi';
+   
